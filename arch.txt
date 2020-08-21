@@ -1,0 +1,26 @@
+@startuml
+package "Application" {
+  [Main]
+}
+
+package "Modules" {
+  [Button]
+note right of [Button]
+  A note can also
+  be on several lines
+end note
+}
+
+package "Drivers"{
+  [Gpio]
+}
+
+package "HW config"{
+  [Hardware Abstraction Layer]
+}
+
+
+[Main] --> [Button]
+[Button] --> [Gpio]
+[Gpio] --> [Hardware Abstraction Layer]
+@enduml
