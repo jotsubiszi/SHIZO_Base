@@ -1,0 +1,43 @@
+REQ0 - Fast prototype:
+    REQ0.1 detect pressed buttons
+    REQ0.2 toggle relays on pressed button
+    REQ0.3 prepare standard hardware layout
+
+
+Functional requirements:
+REQF1 Gpio driver
+    REQ1.1 alows config input/output
+    REQ1.2 handle inverted hardware logic
+    REQ1.3 handle output init state
+
+REQF2 Button driver
+    REQ2.1 detect buton press
+    REQ2.2 detect button release
+    REQ2.3 detect shortpress < 1s
+    REQ2.4 detect longress >= 1s
+    REQ2.5 detect super-longress > 5s
+    REQ2.6 each event call callout functions
+
+
+
+Development requirements:
+REQD1 Requirements
+    REQD1.1 Requirement driven development
+
+REQD2 Code Architecture
+    REQD2.1 Code Architecture must follow Requirements
+
+REQD3 Code Design
+    REQD3.1 Code design must follow Code Architecture
+
+REQD3 Source Code
+    REQD3.1 Source Code must follow Code Design
+    REQD3.2 Source Code must be documented
+
+REQD4 Code Documentation
+    REQD4.1 use Doxygen
+    REQD4.2 each API element shall have a description
+            (exception: self explanatory elements)
+    REQD4.3 git commits shall fit into following template: "type(scope): description"
+        as type: feat[ure], fix, docs, chore, refactor, tests, perf, styles, ci, build, revert
+
