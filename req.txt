@@ -5,18 +5,29 @@ REQ0 - Fast prototype:
 
 
 Functional requirements:
-REQF1 Gpio driver
-    REQ1.1 alows config input/output
-    REQ1.2 handle inverted hardware logic
-    REQ1.3 handle output init state
 
-REQF2 Button driver
-    REQ2.1 detect buton press
-    REQ2.2 detect button release
-    REQ2.3 detect shortpress < 1s
-    REQ2.4 detect longress >= 1s
-    REQ2.5 detect super-longress > 5s
-    REQ2.6 each event call callout functions
+REQF4 Various Events type shall be handled
+    REQF2 --> Button events
+    REQF3 --> Timeout events
+
+REQF2 Button events
+    REQF2.1 detect buton press
+    REQF2.2 detect button release
+    REQF2.3 detect shortpress < 1s
+    REQF2.4 detect longress >= 1s
+    REQF2.5 detect super-longress > 5s
+    REQF2.6 ------
+    REQF2.7 debouncing
+
+    REQF1 Gpio configurations
+    REQF1.1 alows config input/output
+    REQF1.2 handle inverted hardware logic
+    REQF1.3 handle output init state
+
+REQF3 Timer events
+    REQF3.1 start one time timer
+    REQF3.2 start periodic timer
+    REQF3.3 1ms resolution
 
 
 
