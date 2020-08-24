@@ -1,26 +1,42 @@
 @startuml
 package "Application" {
   [Main]
-}
+  [Event Manager]
+note right of [Gpio]
+    REQF4
+end note}
 
 package "Modules" {
   [Button]
 note right of [Button]
-  A note can also
-  be on several lines
+    REQF2
+end note
+  [Timer]
+note right of [Timer]
+    REQF3
 end note
 }
 
 package "Drivers"{
   [Gpio]
+note right of [Gpio]
+    REQF1
+end note
 }
 
 package "HW config"{
   [Hardware Abstraction Layer]
+note right of [Hardware Abstraction Layer]
+    REQF1
+end note
 }
 
 
-[Main] --> [Button]
+[Main] --> [Event Manager]
+[Event Manager] --> [Button]
+[Event Manager] --> [Timer]
 [Button] --> [Gpio]
 [Gpio] --> [Hardware Abstraction Layer]
+
 @enduml
+
