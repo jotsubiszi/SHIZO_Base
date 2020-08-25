@@ -1,4 +1,6 @@
 #include "gpio.h"
+#include "button.h"
+
 void setup() {
     Serial.begin(9600);
     Serial.println("\n\n== DEVICE INIT ==");
@@ -8,5 +10,6 @@ void setup() {
 
 
 void loop() {
+    buttonTask();
 }
 
