@@ -9,6 +9,7 @@ const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (chec
     [GPIO_PIN_BUTTON]   = {8,  true,  false, 0},
 };
 
+
 //TODO add normal assert macro
 static void asserTests(void){
     uint8_t isOk=true;
@@ -25,6 +26,7 @@ static void asserTests(void){
     }
         Serial.println("ASSERT OK");
 }
+
 
 void Gpio_Init(void){
     Serial.println("Gpio Init");
@@ -61,6 +63,7 @@ void Gpio_Init(void){
         Serial.println("");
     }
 }
+
 
 bool Gpio_GetPinState(Gpio_Pin pinName){
     //TODO add assert
