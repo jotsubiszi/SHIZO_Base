@@ -119,8 +119,16 @@ static bool buttonPressedStateMachine(Button_Struct *button){
 }
 
 
+Button_Struct * Button_FindHandler(Gpio_Pin pinName){
+    for(uint8_t i=0; i < (sizeof(buttonStateMatrix)/sizeof(buttonStateMatrix[0])); i++){
+        Button_Struct * button = &buttonStateMatrix[i];
+        if(button->pinName == pinName){
+            return button;
+        }
     }
 
+    /*if didn't find: */
+    return NULL;
 }
 
 

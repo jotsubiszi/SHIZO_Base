@@ -30,7 +30,7 @@ typedef struct{
 
 void buttonTask(void);
 
-
+Button_Struct *Button_FindHandler(Gpio_Pin pinName);
 
 #endif
 
