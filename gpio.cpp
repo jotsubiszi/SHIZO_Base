@@ -69,17 +69,17 @@ bool Gpio_GetPinState(Gpio_Pin pinName){
     //TODO add assert
 
     uint8_t pinNo = gpioHardwareConfigTab[pinName].pinNumber;
+    bool isInvLogic = gpioHardwareConfigTab[pinName].isInvertedLogic;
     bool state = digitalRead(pinNo);
-#if defined(DEBUG) && (DEBUG == 1)
-    Serial.print("pinName:");
-    Serial.print(pinName, DEC);
-    Serial.print(" pinNo:");
-    Serial.print(pinNo, DEC);
-    Serial.print(" state:");
-    Serial.println(state, DEC);
-#endif
-    return state;
+    return isInvLogic ? !state : state;
 }
 
+void Gpio_SetPinState(Gpio_Pin pinName, bool state){
+    //TODO add assert
 
+    uint8_t pinNo = gpioHardwareConfigTab[pinName].pinNumber;
+    bool isInvLogic = gpioHardwareConfigTab[pinName].isInvertedLogic;
+    bool physicState = isInvLogic ? !state : state;
+    digitalWrite(pinNo, physicState);
+}
 

@@ -21,6 +21,7 @@ typedef struct {
 
 void Gpio_Init(void);
 bool Gpio_GetPinState(Gpio_Pin pinName);
+void Gpio_SetPinState(Gpio_Pin pinName, bool state);
 
 
 
