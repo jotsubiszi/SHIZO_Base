@@ -25,7 +25,6 @@ typedef struct{
     Button_State logicState;
     bool physState;
     uint32_t pressedTimePoint;
-    Button_Callback *buttonCallback[BUTTON_STATE_SENTINEL];
 } Button_Struct;
 
 

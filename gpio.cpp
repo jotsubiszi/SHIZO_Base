@@ -4,9 +4,16 @@
 #include <assert.h>
 
 const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (checked by assert)*/] = {
-    [GPIO_PIN_LED]      = {13, false, false, HIGH},
-    [GPIO_PIN_RELAY]    = {12, false, false, LOW},
-    [GPIO_PIN_BUTTON]   = {8,  true,  false, 0},
+    [GPIO_PIN_LED]     = {13, false, false, HIGH},
+    [GPIO_PIN_RELAY1]  = {10, false, true,  LOW},
+    [GPIO_PIN_RELAY2]  = { 9, false, true,  LOW},
+    [GPIO_PIN_RELAY3]  = { 8, false, true,  LOW},
+    [GPIO_PIN_RELAY4]  = { 7, false, true,  LOW},
+    [GPIO_PIN_BUTTON1] = { 6, true,  false, 0},
+    [GPIO_PIN_BUTTON2] = { 5, true,  false, 0},
+    [GPIO_PIN_BUTTON3] = { 4, true,  false, 0},
+    [GPIO_PIN_BUTTON4] = { 3, true,  false, 0},
+    [GPIO_PIN_BUTTON5] = { 2, true,  false, 0},
 };
 
 

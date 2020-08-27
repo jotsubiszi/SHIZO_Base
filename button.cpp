@@ -9,10 +9,14 @@ static void dummy(void){
         Serial.println(i++, DEC);
 }
 
-//TODO temporary dummy event arrays to delete
-Button_Callback dummyarray[] = {dummy, dummy, dummy, dummy, dummy, dummy};
+
+
 Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
-    {GPIO_PIN_BUTTON, BUTTON_STATE_SHORT_RELEASED, false, 0, dummyarray},
+    {GPIO_PIN_BUTTON1, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON2, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON3, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON4, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON5, BUTTON_STATE_SHORT_RELEASED, false, 0, },
 };
 
 
@@ -115,16 +119,6 @@ static bool buttonPressedStateMachine(Button_Struct *button){
 }
 
 
-static void executeButtonCallback(Button_Struct *button){
-    Button_Callback callback;
-    callback = *button->buttonCallback[button->logicState];
-
-    if(callback != NULL){
-        Serial.print(" callback pin:");
-        Serial.println(button->pinName, DEC);
-        callback();
-    }else{
-        Serial.print("");
     }
 
 }
@@ -147,10 +141,6 @@ void buttonTask(void){
             }else{
                 isStateChanged = buttonReleasedStateMachine(button);
             }
-        }
-
-        if(isStateChanged){
-            executeButtonCallback(button);
         }
     }
 }
