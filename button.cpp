@@ -23,7 +23,7 @@ Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by a
 static const uint32_t lastDebounceTime = 0;
 static const uint16_t debounceDelay = 20;
 static const uint16_t longPressTime = 1000u;
-static const uint16_t superLongPressTime = 4000uL;
+static const uint16_t superLongPressTime = 2000uL;
 
 
 static inline bool isDebounced(Button_Struct *button){
