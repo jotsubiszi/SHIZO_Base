@@ -5,74 +5,83 @@
 //TODO add assert to check matrix size and consistency
 
 //TODO move eventAction to another module
-static void toggleRelay1(void){
-    static uint8_t i;
+static void enableWallLightA(void){
+    Serial.println("enableWallLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+}
+static void enableWallLightB(void){
+    Serial.println("enableWallLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+}
+static void disableWallLightA(void){
+    Serial.println("disableWallLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+}
+static void disableWallLightB(void){
+    Serial.println("disableWallLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
+}
+static void enableBacklight(void){
+    Serial.println("enableWallLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+}
+static void timeDisableBacklight(void){
+    Serial.println("disableWallLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+}
+static void toggleWallLightA(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY1);
-        Serial.print("toggleRelay1:");
-        Serial.println(i++, DEC);
-        Serial.print("state:");
-        Serial.println(state, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY1, !state);
+    Serial.print("toggleWallLightA:");
+    Serial.print("state:");
+    Serial.println(state, DEC);
+    Gpio_SetPinState(GPIO_PIN_RELAY1, !state);
 }
-static void toggleRelay2(void){
-    static uint8_t i;
+static void toggleWallLightB(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY2);
-        Serial.print("toggleRelay2:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY2, !state);
+    Serial.print("toggleWallLightB:");
+    Serial.print("state:");
+    Serial.println(state, DEC);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, !state);
 }
-static void toggleRelay3(void){
-    static uint8_t i;
+static void toggleMainLight(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY3);
-        Serial.print("toggleRelay3:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY3, !state);
+    Serial.print("toggleMainLight:");
+    Serial.print("state:");
+    Serial.println(state, DEC);
+    Gpio_SetPinState(GPIO_PIN_RELAY3, !state);
 }
-static void toggleRelay4(void){
-    static uint8_t i;
-    bool state = Gpio_GetPinState(GPIO_PIN_RELAY4);
-        Serial.print("toggleRelay4:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY4, !state);
+static void disableAllLight(void){
+    Serial.println("disableAllLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY3, LOW);
 }
-static void toggleRelay5(void){
-    static uint8_t i;
-    bool state1 = Gpio_GetPinState(GPIO_PIN_RELAY1);
-    bool state2 = Gpio_GetPinState(GPIO_PIN_RELAY2);
-        Serial.print("toggleRelay  1 and 2:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY1, !state1);
-        Gpio_SetPinState(GPIO_PIN_RELAY2, !state2);
+static void enableAllLight(void){
+    Serial.println("enableAllLight");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY3, HIGH);
 }
-static void toggleAllRelay(void){
-    static uint8_t i;
-    bool state1 = Gpio_GetPinState(GPIO_PIN_RELAY1);
-    bool state2 = Gpio_GetPinState(GPIO_PIN_RELAY2);
-    bool state3 = Gpio_GetPinState(GPIO_PIN_RELAY3);
-    bool state4 = Gpio_GetPinState(GPIO_PIN_RELAY4);
-        Serial.print("toggleAllRelay:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY1, !state1);
-        Gpio_SetPinState(GPIO_PIN_RELAY2, !state2);
-        Gpio_SetPinState(GPIO_PIN_RELAY3, !state3);
-        Gpio_SetPinState(GPIO_PIN_RELAY4, !state4);
+static void disableWallLight(void){
+    Serial.println("disableWallLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
 }
 
-static void disableAllRelay(void){
-    static uint8_t i;
-        Serial.print("disableAllRelay:");
-        Serial.println(i++, DEC);
-        Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
-        Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
-        Gpio_SetPinState(GPIO_PIN_RELAY3, LOW);
-        Gpio_SetPinState(GPIO_PIN_RELAY4, LOW);
+static void enableWallLight(void){
+    Serial.print("enableWallLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
 }
 
-EventMgr_Callback  *button1CallbackArray[] = {toggleRelay1, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
-EventMgr_Callback  *button2CallbackArray[] = {toggleRelay2, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
-EventMgr_Callback  *button3CallbackArray[] = {toggleRelay3, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
-EventMgr_Callback  *button4CallbackArray[] = {toggleRelay4, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
-EventMgr_Callback  *button5CallbackArray[] = {toggleRelay5, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
+EventMgr_Callback  *button1CallbackArray[] = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+EventMgr_Callback  *button2CallbackArray[] = {toggleWallLightA, NULL, disableWallLightB, NULL, enableWallLightB, NULL};
+EventMgr_Callback  *button3CallbackArray[] = {toggleWallLightB, NULL, disableWallLightA, NULL, enableWallLightA, NULL};
+EventMgr_Callback  *button4CallbackArray[] = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+EventMgr_Callback  *button5CallbackArray[] = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+EventMgr_Callback  *button6CallbackArray[] = {toggleWallLightA, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
+EventMgr_Callback  *button7CallbackArray[] = {toggleWallLightB, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
+EventMgr_Callback  *pir8CallbackArray[]    = {enableBacklight,  timeDisableBacklight, NULL, NULL, NULL,          NULL};
 
 /*TODO add assert for table size*/
 EventMgr_Config eventConfigMatrix[] = {
@@ -81,6 +90,9 @@ EventMgr_Config eventConfigMatrix[] = {
     [2] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON3, 0, button3CallbackArray, },
     [3] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON4, 0, button4CallbackArray, },
     [4] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON5, 0, button5CallbackArray, },
+    [5] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON6, 0, button6CallbackArray, },
+    [6] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON7, 0, button7CallbackArray, },
+    [7] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_PIR8,    0, pir8CallbackArray,    },
 };
 
 static EventMgr_Callback* isButtonEventOccured(EventMgr_Config *event){

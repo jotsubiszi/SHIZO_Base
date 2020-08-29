@@ -14,6 +14,9 @@ const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (chec
     [GPIO_PIN_BUTTON3] = { 4, true,  false, 0},
     [GPIO_PIN_BUTTON4] = { 3, true,  false, 0},
     [GPIO_PIN_BUTTON5] = { 2, true,  false, 0},
+    [GPIO_PIN_BUTTON6] = {A0, true,  false, 0},
+    [GPIO_PIN_BUTTON7] = {A1, true,  false, 0},
+    [GPIO_PIN_PIR8] =    {A2, true,  false, 0},
 };
 
 

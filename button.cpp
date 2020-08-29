@@ -9,6 +9,9 @@ Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by a
     {GPIO_PIN_BUTTON3, BUTTON_STATE_SHORT_RELEASED, false, 0, },
     {GPIO_PIN_BUTTON4, BUTTON_STATE_SHORT_RELEASED, false, 0, },
     {GPIO_PIN_BUTTON5, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON6, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON7, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_PIR8, BUTTON_STATE_SHORT_RELEASED, false, 0, },
 };
 
 //TODO Configure using init or by config file
