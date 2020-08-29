@@ -15,7 +15,7 @@ REQF2 Button events
     REQF2.2 detect button release
     REQF2.3 detect shortpress < 1s
     REQF2.4 detect longress >= 1s
-    REQF2.5 detect super-longress > 5s
+    REQF2.5 detect super-longress > 2s
     REQF2.6 ------
     REQF2.7 debouncing
 
