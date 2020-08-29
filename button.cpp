@@ -3,14 +3,6 @@
 #include "button.h"
 
 
-static void dummy(void){
-    static uint8_t i;
-        Serial.print("DUMMY:");
-        Serial.println(i++, DEC);
-}
-
-
-
 Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
     {GPIO_PIN_BUTTON1, BUTTON_STATE_SHORT_RELEASED, false, 0, },
     {GPIO_PIN_BUTTON2, BUTTON_STATE_SHORT_RELEASED, false, 0, },
@@ -19,7 +11,7 @@ Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by a
     {GPIO_PIN_BUTTON5, BUTTON_STATE_SHORT_RELEASED, false, 0, },
 };
 
-
+//TODO Configure using init or by config file
 static const uint32_t lastDebounceTime = 0;
 static const uint16_t debounceDelay = 20;
 static const uint16_t longPressTime = 1000u;

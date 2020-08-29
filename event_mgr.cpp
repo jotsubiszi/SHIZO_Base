@@ -74,6 +74,7 @@ EventMgr_Callback  *button3CallbackArray[] = {toggleRelay3, NULL, toggleAllRelay
 EventMgr_Callback  *button4CallbackArray[] = {toggleRelay4, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
 EventMgr_Callback  *button5CallbackArray[] = {toggleRelay5, NULL, toggleAllRelay, NULL, disableAllRelay, NULL};
 
+/*TODO add assert for table size*/
 EventMgr_Config eventConfigMatrix[] = {
     [0] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON1, 0, button1CallbackArray, },
     [1] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON2, 0, button2CallbackArray, },
