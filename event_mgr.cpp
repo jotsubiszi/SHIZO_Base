@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "event_mgr.h"
 #include "button.h"
+#include "timer.h"
 
 //TODO add assert to check matrix size and consistency
 
@@ -106,22 +107,46 @@ static EventMgr_Callback* isButtonEventOccured(EventMgr_Config *event){
         eventCallback = (EventMgr_Callback *)event->callbacks[eventState];
         event->oldState = eventState;
     }
+
     return eventCallback;
 }
 
-static EventMgr_Callback* isTimerEventOccured(void *event){
-    //TODO dummy function as yet
-    return NULL;
+static EventMgr_Callback* isTimerEventOccured(EventMgr_Config *event){
+    EventMgr_Callback *eventCallback = NULL;
 
+    Timer_Struct *timerObj = (Timer_Struct *)event->object;
+    Timer_State oldEventState = (Timer_State)event->oldState;
+    Timer_State eventState = timerObj->state;
+
+    if(eventState != oldEventState){
+        eventCallback = (EventMgr_Callback *)event->callbacks[eventState];
+        event->oldState = eventState;
+    }
+
+    return eventCallback;
 }
 
 void EventMgrInit(void){
     for(uint8_t i=0; i < (sizeof(eventConfigMatrix)/sizeof(eventConfigMatrix[0])); i++){
         EventMgr_Config * event = &eventConfigMatrix[i];
+        uint8_t objectIndex;
 
-        uint8_t objectIndex = (uint8_t)event->objectIndex;
-        event->object = (void*)Button_FindHandler((Gpio_Pin)objectIndex);
-        //TODO add TIMER object finder
+        switch(event->type){
+            case EVENT_TYPE_BUTTON:
+                objectIndex = (uint8_t)event->objectIndex;
+                event->object = (void*)Button_FindHandler((Gpio_Pin)objectIndex);
+                break;
+
+            case EVENT_TYPE_TIMER:
+                objectIndex = (uint8_t)event->objectIndex;
+                event->object = (void*)Timer_FindHandler((Timer_Name)objectIndex);
+                break;
+
+            case EVENT_TYPE_SENTINEL:
+            default:
+                //TODO assert here
+                break;
+        }
     }
 }
 
@@ -155,6 +180,3 @@ void EventMgr_CheckEvents(void){
     }
 }
 
-void executeEventCallbacks(void){
-
-}
