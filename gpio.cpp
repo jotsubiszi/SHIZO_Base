@@ -9,19 +9,20 @@
 
 
 const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (checked by assert)*/] = {
-    [GPIO_PIN_LED]     = {13, false, false, HIGH},
-    [GPIO_PIN_RELAY1]  = {10, false, true,  LOW},
-    [GPIO_PIN_RELAY2]  = { 9, false, true,  LOW},
-    [GPIO_PIN_RELAY3]  = { 8, false, true,  LOW},
-    [GPIO_PIN_RELAY4]  = { 7, false, true,  LOW},
-    [GPIO_PIN_BUTTON1] = { 6, true,  false, 0},
-    [GPIO_PIN_BUTTON2] = { 5, true,  false, 0},
-    [GPIO_PIN_BUTTON3] = { 4, true,  false, 0},
-    [GPIO_PIN_BUTTON4] = { 3, true,  false, 0},
-    [GPIO_PIN_BUTTON5] = { 2, true,  false, 0},
-    [GPIO_PIN_BUTTON6] = {A0, true,  false, 0},
-    [GPIO_PIN_BUTTON7] = {A1, true,  false, 0},
-    [GPIO_PIN_PIR8] =    {A2, true,  false, 0},
+    /*Gpio_Pin        pinNumber isInput isPullup, isInv initState */
+    [GPIO_PIN_LED]     = {13,    false,  false,   false,  HIGH},
+    [GPIO_PIN_RELAY1]  = {10,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY2]  = { 9,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY3]  = { 8,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY4]  = { 7,    false,  false,   true,   LOW},
+    [GPIO_PIN_BUTTON1] = { 6,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON2] = { 5,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON3] = { 4,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON4] = { 3,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON5] = { 2,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON6] = {A0,    true,   false,   false,  0},
+    [GPIO_PIN_BUTTON7] = {A1,    true,   false,   false,  0},
+    [GPIO_PIN_PIR8] =    {A2,    true,   false,   false,  0},
 };
 
 
@@ -43,38 +44,61 @@ static void asserTests(void){
 }
 
 
+static void configureInput(const Gpio_Config *config){
+    uint8_t pin = config->pinNumber;
+    bool isPullUp = config->isPullUp;
+
+
+    if(isPullUp){
+        pinMode(pin, INPUT_PULLUP);
+        LOGGER(LOG_DEBUG, "pullup ");
+    }else{
+        pinMode(pin, INPUT);
+    }
+
+    LOGGER(LOG_DEBUG, "input ");
+}
+
+
+static void configureOutput(const Gpio_Config *config){
+    uint8_t pin = config->pinNumber;
+    bool isInvLogic = config->isInvertedLogic;
+    bool initState = config->initState;
+
+    LOGGER(LOG_DEBUG, "output ");
+    LOGGER(LOG_DEBUG, " initState:");
+
+    if(isInvLogic){
+        digitalWrite(pin, initState ? LOW : HIGH);
+        LOGGER(LOG_DEBUG, initState ? LOW : HIGH, DEC);
+    } else {
+        digitalWrite(pin, initState ? HIGH : LOW);
+        LOGGER(LOG_DEBUG, initState ? HIGH : LOW, DEC);
+    }
+
+    pinMode(pin, OUTPUT);
+}
+
+
 void Gpio_Init(void){
     LOGGERLN(LOG_INFO, "Gpio Init");
 
     asserTests();
 
     for(uint8_t i=0; i < (sizeof(gpioHardwareConfigTab)/sizeof(gpioHardwareConfigTab[0])); i++){
-        uint8_t pin = gpioHardwareConfigTab[i].pinNumber;
-        bool isInput = gpioHardwareConfigTab[i].isInput;
+        const Gpio_Config *pinHandler = &gpioHardwareConfigTab[i];
 
         LOGGER(LOG_DEBUG, "pin:");
-        LOGGER(LOG_DEBUG, pin, DEC);
+        LOGGER(LOG_DEBUG, pinHandler->pinNumber, DEC);
         LOGGER(LOG_DEBUG, " = ");
-        LOGGER(LOG_DEBUG, isInput, DEC);
+        LOGGER(LOG_DEBUG, pinHandler->isInput, DEC);
 
-        if(isInput){
-            pinMode(pin, INPUT);
-            LOGGER(LOG_DEBUG, "input ");
+        if(pinHandler->isInput){
+            configureInput(pinHandler);
         }else{
-            pinMode(pin, OUTPUT);
-            LOGGER(LOG_DEBUG, "output ");
-            bool isInvLogic = gpioHardwareConfigTab[i].isInvertedLogic;
-            bool initState = gpioHardwareConfigTab[i].initState;
-
-            LOGGER(LOG_DEBUG, " initState:");
-            if(isInvLogic){
-                digitalWrite(pin, initState ? LOW : HIGH);
-                LOGGER(LOG_DEBUG, initState ? LOW : HIGH, DEC);
-            } else {
-                digitalWrite(pin, initState ? HIGH : LOW);
-                LOGGER(LOG_DEBUG, initState ? HIGH : LOW, DEC);
-            }
+            configureOutput(pinHandler);
         }
+
         LOGGERLN(LOG_DEBUG, "");
     }
 }
@@ -85,9 +109,11 @@ bool Gpio_GetPinState(Gpio_Pin pinName){
 
     uint8_t pinNo = gpioHardwareConfigTab[pinName].pinNumber;
     bool isInvLogic = gpioHardwareConfigTab[pinName].isInvertedLogic;
+
     bool state = digitalRead(pinNo);
     return isInvLogic ? !state : state;
 }
+
 
 void Gpio_SetPinState(Gpio_Pin pinName, bool state){
     //TODO add assert
@@ -99,6 +125,7 @@ void Gpio_SetPinState(Gpio_Pin pinName, bool state){
     uint8_t pinNo = gpioHardwareConfigTab[pinName].pinNumber;
     bool isInvLogic = gpioHardwareConfigTab[pinName].isInvertedLogic;
     bool physicState = isInvLogic ? !state : state;
+
     digitalWrite(pinNo, physicState);
 
 }

@@ -25,6 +25,7 @@ typedef enum {
 typedef struct {
     uint8_t pinNumber;
     bool isInput;
+    bool isPullUp;
     bool isInvertedLogic;
     bool initState;
 } Gpio_Config;

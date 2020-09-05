@@ -23,6 +23,7 @@ REQF2 Button events
     REQF1.1 alows config input/output
     REQF1.2 handle inverted hardware logic
     REQF1.3 handle output init state
+    REQF1.3 allows pullUp config
 
 REQF3 Timer events
     REQF3.1 start one time timer
