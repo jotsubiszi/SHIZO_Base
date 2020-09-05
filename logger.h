@@ -21,7 +21,7 @@
 #endif
 
 //TODO implement logger_channels (redefinition of Serial.print may be needed)
-#if (defined LOGGER_ENABLED) && (LOGGER_ENABLED == 1)
+#if (defined LOGGER_ENABLED) && (LOGGER_ENABLED != 0)
     #define LOGGER(LVL, ...) do{ if((LVL)<=(LOGGER_LEVEL)) { Serial.print(__VA_ARGS__); } }while(0)
     #define LOGGERLN(LVL, ...) do{ if((LVL)<=(LOGGER_LEVEL)) { Serial.println(__VA_ARGS__); } }while(0)
 #else

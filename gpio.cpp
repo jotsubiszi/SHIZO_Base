@@ -3,9 +3,9 @@
 #include <Arduino.h>
 #include <assert.h>
 
-#define LOGGER_ENABLED 3
-#include "logger.h"
+#define LOGGER_ENABLED 1
 #define LOGGER_LEVEL LOG_INFO
+#include "logger.h"
 
 
 const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (checked by assert)*/] = {
