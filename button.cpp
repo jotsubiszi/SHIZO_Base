@@ -31,9 +31,7 @@ static inline bool isDebounced(Button_Struct *button){
 }
 
 
-static bool buttonReleasedStateMachine(Button_Struct *button){
-
-    bool isStateChanged = false;
+static void buttonReleasedStateMachine(Button_Struct *button){
     Button_State state = button->logicState;
 
     switch(state){
@@ -61,20 +59,16 @@ static bool buttonReleasedStateMachine(Button_Struct *button){
     }
 
     if(state != button->logicState){
-        isStateChanged = true;
         button->logicState = state;
         LOGGER(LOG_DEBUG, "Button no:");
         LOGGER(LOG_DEBUG, button->pinName, DEC);
         LOGGER(LOG_DEBUG, " state:");
         LOGGERLN(LOG_DEBUG, state, DEC);
     }
-
-    return isStateChanged;
 }
 
 
-static bool buttonPressedStateMachine(Button_Struct *button){
-    bool isStateChanged = false;
+static void buttonPressedStateMachine(Button_Struct *button){
     Button_State state = button->logicState;
     uint32_t pressedTime = millis() - button->pressedTimePoint;
 
@@ -106,15 +100,12 @@ static bool buttonPressedStateMachine(Button_Struct *button){
     }
 
     if(state != button->logicState){
-        isStateChanged = true;
         button->logicState = state;
         LOGGER(LOG_INFO, "Button no:");
         LOGGER(LOG_INFO, button->pinName, DEC);
         LOGGER(LOG_INFO, " state:");
         LOGGERLN(LOG_INFO, state, DEC);
     }
-
-    return isStateChanged;
 }
 
 
@@ -141,14 +132,14 @@ void buttonTask(void){
             button->physState = newPhysState;
         }
 
-        bool isStateChanged = false;
         if(isDebounced(button)){
             if (button->physState == HIGH) {
-                isStateChanged = buttonPressedStateMachine(button);
+                buttonPressedStateMachine(button);
             }else{
-                isStateChanged = buttonReleasedStateMachine(button);
+                buttonReleasedStateMachine(button);
             }
         }
+
     }
 }
 
