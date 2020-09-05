@@ -1,6 +1,11 @@
 #include "Arduino.h"
 #include "timer.h"
 
+#define LOGGER_ENABLED 1
+#define LOGGER_LEVEL LOG_INFO
+#include "logger.h"
+
+
 //TODO add table consistency assert
 //TODO pass as parameter at timer_create
 //TODO assert timeout < MAX_INT32
@@ -15,14 +20,15 @@ void timeoutDetected(Timer_Struct *timer){
         /* calculate the starting point 'as it should be' based on the old starting point
          * it helps to avoid an error accumulation on each timer refreshing*/
         timer->startingTime = timer->startingTime + timer->timeout;
-        Serial.print("now: ");
-        Serial.print(millis(), DEC);
-        Serial.print("next: ");
-        Serial.print(millis()+timer->timeout, DEC);
-        Serial.print("periodic ");
+        LOGGER(LOG_DEBUG, "now: ");
+        LOGGER(LOG_DEBUG, millis(), DEC);
+        LOGGER(LOG_DEBUG, "next: ");
+        LOGGER(LOG_DEBUG, millis()+timer->timeout, DEC);
+        LOGGER(LOG_INFO, "periodic ");
     }
-    Serial.print("timer expired: ");
-    Serial.println(timer->timeout, DEC);
+    LOGGER(LOG_INFO, "timer expired: ");
+    LOGGER(LOG_DEBUG, timer->timeout, DEC);
+    LOGGER(LOG_INFO, "");
 
     switch(timer->state){
         case TIMER_RUNNING:
@@ -92,8 +98,9 @@ Timer_Struct *Timer_FindHandler(Timer_Name timerName){
 
 
 void Timer_Run(Timer_Name timerName){
-    Serial.print("run timer:");
-    Serial.println(timerName, DEC);
+    LOGGER(LOG_INFO, "run timer:");
+    LOGGER(LOG_DEBUG, timerName, DEC);
+    LOGGERLN(LOG_INFO, "");
 
     Timer_Struct * timer = &timerStateMatrix[timerName];
     timer->state = TIMER_RUNNING;
@@ -102,8 +109,9 @@ void Timer_Run(Timer_Name timerName){
 
 
 void Timer_Stop(Timer_Name timerName){
-    Serial.print("stop timer:");
-    Serial.println(timerName, DEC);
+    LOGGER(LOG_INFO, "stop timer:");
+    LOGGER(LOG_DEBUG, timerName, DEC);
+    LOGGERLN(LOG_INFO, "");
 
     Timer_Struct * timer = &timerStateMatrix[timerName];
     timer->state = TIMER_STOPPED;

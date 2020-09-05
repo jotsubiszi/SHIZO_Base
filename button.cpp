@@ -2,6 +2,10 @@
 #include <Arduino.h>
 #include "button.h"
 
+#define LOGGER_ENABLED 1
+#define LOGGER_LEVEL LOG_INFO
+#include "logger.h"
+
 
 Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
     {GPIO_PIN_BUTTON1, BUTTON_STATE_SHORT_RELEASED, false, 0, },
@@ -59,10 +63,10 @@ static bool buttonReleasedStateMachine(Button_Struct *button){
     if(state != button->logicState){
         isStateChanged = true;
         button->logicState = state;
-        Serial.print("Button no:");
-        Serial.print(button->pinName, DEC);
-        Serial.print(" state:");
-        Serial.println(state, DEC);
+        LOGGER(LOG_DEBUG, "Button no:");
+        LOGGER(LOG_DEBUG, button->pinName, DEC);
+        LOGGER(LOG_DEBUG, " state:");
+        LOGGERLN(LOG_DEBUG, state, DEC);
     }
 
     return isStateChanged;
@@ -104,10 +108,10 @@ static bool buttonPressedStateMachine(Button_Struct *button){
     if(state != button->logicState){
         isStateChanged = true;
         button->logicState = state;
-        Serial.print("Button no:");
-        Serial.print(button->pinName, DEC);
-        Serial.print(" state:");
-        Serial.println(state, DEC);
+        LOGGER(LOG_INFO, "Button no:");
+        LOGGER(LOG_INFO, button->pinName, DEC);
+        LOGGER(LOG_INFO, " state:");
+        LOGGERLN(LOG_INFO, state, DEC);
     }
 
     return isStateChanged;

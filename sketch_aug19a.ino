@@ -4,10 +4,14 @@
 #include "event_mgr.h"
 
 
+#define LOGGER_ENABLED 1
+#define LOGGER_LEVEL LOG_INFO
+#include "logger.h"
+
 
 void setup() {
     Serial.begin(9600);
-    Serial.println("\n\n== DEVICE INIT ==");
+    LOGGERLN(LOG_INFO, "\n\n== DEVICE INIT ==");
 
     Gpio_Init();
     EventMgrInit();

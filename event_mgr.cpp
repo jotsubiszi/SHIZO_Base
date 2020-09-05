@@ -3,86 +3,91 @@
 #include "button.h"
 #include "timer.h"
 
+#define LOGGER_ENABLED 1
+#define LOGGER_LEVEL LOG_INFO
+#include "logger.h"
+
+
 //TODO add assert to check matrix size and consistency
 
 //TODO move eventAction to another module
 static void enableWallLightA(void){
-    Serial.println("enableWallLightA:");
+    LOGGERLN(LOG_DEBUG, "enableWallLightA:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
 }
 static void enableWallLightB(void){
-    Serial.println("enableWallLightB:");
+    LOGGERLN(LOG_DEBUG, "enableWallLightB:");
     Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
 }
 static void disableWallLightA(void){
-    Serial.println("disableWallLightA:");
+    LOGGERLN(LOG_DEBUG, "disableWallLightA:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
 }
 static void disableWallLightB(void){
-    Serial.println("disableWallLightB:");
+    LOGGERLN(LOG_DEBUG, "disableWallLightB:");
     Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
 }
 static void runBedLightTimer(void){
-    Serial.println("runBedLightTimer:");
+    LOGGERLN(LOG_DEBUG, "runBedLightTimer:");
     Timer_Run(TIMER_BED_LIGHT);
 }
 static void enableBedLight(void){
-    Serial.println("enableBedLight:");
+    LOGGERLN(LOG_DEBUG, "enableBedLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY4, HIGH);
     // TODO probably here Timer_Run(TIMER_BED_LIGHT) shall be called
     // to keep light ON when pir is in HIGH state
 }
 static void disableBedLight(void){
-    Serial.println("disableBedLight:");
+    LOGGERLN(LOG_DEBUG, "disableBedLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY4, LOW);
 }
 static void toggleWallLightA(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY1);
-    Serial.print("toggleWallLightA:");
-    Serial.print("state:");
-    Serial.println(state, DEC);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleWallLightA:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, !state);
 }
 static void toggleWallLightB(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY2);
-    Serial.print("toggleWallLightB:");
-    Serial.print("state:");
-    Serial.println(state, DEC);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleWallLightB:");
     Gpio_SetPinState(GPIO_PIN_RELAY2, !state);
 }
 static void toggleMainLight(void){
     bool state = Gpio_GetPinState(GPIO_PIN_RELAY3);
-    Serial.print("toggleMainLight:");
-    Serial.print("state:");
-    Serial.println(state, DEC);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleMainLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY3, !state);
 }
 static void disableAllLight(void){
-    Serial.println("disableAllLight:");
+    LOGGERLN(LOG_DEBUG, "disableAllLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
     Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
     Gpio_SetPinState(GPIO_PIN_RELAY3, LOW);
 }
 static void enableAllLight(void){
-    Serial.println("enableAllLight");
+    LOGGERLN(LOG_DEBUG, "enableAllLight");
     Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
     Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
     Gpio_SetPinState(GPIO_PIN_RELAY3, HIGH);
 }
 static void disableWallLight(void){
-    Serial.println("disableWallLight:");
+    LOGGERLN(LOG_DEBUG, "disableWallLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
     Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
 }
 
 static void enableWallLight(void){
-    Serial.print("enableWallLight:");
+    LOGGER(LOG_DEBUG, "enableWallLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
     Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
 }
 
 static void toggleLed(void){
-    Serial.print("tick!");
+    LOGGER(LOG_INFO, "tick!");
     bool state = Gpio_GetPinState(GPIO_PIN_LED);
     Gpio_SetPinState(GPIO_PIN_LED, !state);
 }
@@ -190,7 +195,7 @@ void EventMgr_CheckEvents(void){
 
         if(eventCallback != NULL){
             event->counter++;
-            Serial.println("event callback call");
+            LOGGERLN(LOG_INFO, "event callback");
             eventCallback();
         }
     }
