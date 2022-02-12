@@ -8,14 +8,14 @@
 
 
 Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
-    {GPIO_PIN_BUTTON1, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON2, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON3, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON4, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON5, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON6, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON7, BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_PIR8, BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON1,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON2,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON3,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON4,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON5,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON6,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON7,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
+    {GPIO_PIN_BUTTON8,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
 };
 
 //TODO Configure using init or by config file
@@ -60,7 +60,7 @@ static void buttonReleasedStateMachine(Button_Struct *button){
 
     if(state != button->logicState){
         button->logicState = state;
-        LOGGER(LOG_DEBUG, "Button no:");
+        LOGGER(LOG_DEBUG, "Button released no:");
         LOGGER(LOG_DEBUG, button->pinName, DEC);
         LOGGER(LOG_DEBUG, " state:");
         LOGGERLN(LOG_DEBUG, state, DEC);
@@ -101,7 +101,7 @@ static void buttonPressedStateMachine(Button_Struct *button){
 
     if(state != button->logicState){
         button->logicState = state;
-        LOGGER(LOG_INFO, "Button no:");
+        LOGGER(LOG_INFO, "Button pressed no:");
         LOGGER(LOG_INFO, button->pinName, DEC);
         LOGGER(LOG_INFO, " state:");
         LOGGERLN(LOG_INFO, state, DEC);

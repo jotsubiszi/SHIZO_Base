@@ -34,6 +34,7 @@ static void runBedLightTimer(void){
 static void enableBedLight(void){
     LOGGERLN(LOG_DEBUG, "enableBedLight:");
     Gpio_SetPinState(GPIO_PIN_RELAY4, HIGH);
+    Timer_Stop(TIMER_BED_LIGHT);
     // TODO probably here Timer_Run(TIMER_BED_LIGHT) shall be called
     // to keep light ON when pir is in HIGH state
 }
@@ -92,29 +93,136 @@ static void toggleLed(void){
     Gpio_SetPinState(GPIO_PIN_LED, !state);
 }
 
-EventMgr_Callback  *button1CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
-EventMgr_Callback  *button2CallbackArray[]  = {toggleWallLightA, NULL, disableWallLightB, NULL, enableWallLightB, NULL};
-EventMgr_Callback  *button3CallbackArray[]  = {toggleWallLightB, NULL, disableWallLightA, NULL, enableWallLightA, NULL};
-EventMgr_Callback  *button4CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
-EventMgr_Callback  *button5CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
-EventMgr_Callback  *button6CallbackArray[]  = {toggleWallLightA, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
-EventMgr_Callback  *button7CallbackArray[]  = {toggleWallLightB, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
-EventMgr_Callback  *pir8CallbackArray[]     = {NULL, runBedLightTimer, NULL,              NULL, NULL,             NULL};
-EventMgr_Callback  *sysResetCallbackArray[] = {NULL, NULL, NULL, toggleLed, toggleLed,};
-EventMgr_Callback  *bedLightCallbackArray[] = {NULL, enableBedLight, disableBedLight, NULL, NULL,};
+
+
+
+
+/* Kitchen & Living room modes */
+static void enableLivingLightA(void){
+    LOGGERLN(LOG_DEBUG, "enableLivingLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+}
+static void enableLivingLightB(void){
+    LOGGERLN(LOG_DEBUG, "enableLivingLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+}
+static void disableLivingLightA(void){
+    LOGGERLN(LOG_DEBUG, "disableLivingLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+}
+static void disableLivingLightB(void){
+    LOGGERLN(LOG_DEBUG, "disableLivingLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
+}
+static void enableKitchenLedLight(void){
+    LOGGERLN(LOG_DEBUG, "enableKitchenLedLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY4, LOW);
+}
+static void disableKitchenLedLight(void){
+    LOGGERLN(LOG_DEBUG, "disableKitchenLedLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY4, HIGH);
+}
+static void toggleLivingLightA(void){
+    bool state = Gpio_GetPinState(GPIO_PIN_RELAY1);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleLivingLightA:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, !state);
+}
+static void toggleLivingLightB(void){
+    bool state = Gpio_GetPinState(GPIO_PIN_RELAY2);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleLivingLightB:");
+    Gpio_SetPinState(GPIO_PIN_RELAY2, !state);
+}
+static void toggleKitchenLedLight(void){
+    bool state = Gpio_GetPinState(GPIO_PIN_RELAY4);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleKitchenLedLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY4, !state);
+}
+static void toggleKitchenMainLight(void){
+    bool state = Gpio_GetPinState(GPIO_PIN_RELAY3);
+    LOGGER(LOG_VERBOSE, "state:");
+    LOGGERLN(LOG_VERBOSE, state, DEC);
+    LOGGER(LOG_DEBUG, " toggleKitchenMainLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY3, !state);
+}
+static void disableKitchAllLight(void){
+    LOGGERLN(LOG_DEBUG, "disableKitchAllLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY3, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY4, LOW);
+}
+static void enableKitchenAllLight(void){
+    LOGGERLN(LOG_DEBUG, "enableKitchenAllLight");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY3, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY4, HIGH);
+}
+static void disableLivingLight(void){
+    LOGGERLN(LOG_DEBUG, "disableLivingLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, LOW);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, LOW);
+}
+
+static void enableLivingLight(void){
+    LOGGER(LOG_DEBUG, "enableLivingLight:");
+    Gpio_SetPinState(GPIO_PIN_RELAY1, HIGH);
+    Gpio_SetPinState(GPIO_PIN_RELAY2, HIGH);
+}
+
+
+
+/* TODO move project dependent file (config) to another .c or .h files */
+#define KITCHEN 1
+
+#if (defined(KITCHED) && defined(BEDROOOM)) || (!defined(KITCHEN) && !defined(BEDROOM))
+#error project deifnition error
+#endif
+
+#if (KITCHEN == 1)
+const EventMgr_Callback  *button1CallbackArray[]  = {toggleKitchenMainLight,    NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button2CallbackArray[]  = {toggleKitchenLedLight,     NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button3CallbackArray[]  = {toggleKitchenMainLight,    NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button4CallbackArray[]  = {toggleKitchenLedLight,     NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button5CallbackArray[]  = {toggleKitchenMainLight,    NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button6CallbackArray[]  = {toggleKitchenLedLight,     NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button7CallbackArray[]  = {toggleLivingLightA,        NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *button8CallbackArray[]  = {toggleLivingLightB,        NULL, disableKitchAllLight,  NULL, enableKitchenAllLight,   NULL};
+const EventMgr_Callback  *sysResetCallbackArray[] = {NULL, NULL, NULL, toggleLed, toggleLed,};
+const EventMgr_Callback  *bedLightCallbackArray[] = {NULL, enableKitchenLedLight, disableKitchenLedLight, NULL, NULL,};
+#elif (BEDROOM == 1)
+const EventMgr_Callback  *button1CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+const EventMgr_Callback  *button2CallbackArray[]  = {toggleWallLightA, NULL, disableWallLightB, NULL, enableWallLightB, NULL};
+const EventMgr_Callback  *button3CallbackArray[]  = {toggleWallLightB, NULL, disableWallLightA, NULL, enableWallLightA, NULL};
+const EventMgr_Callback  *button4CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+const EventMgr_Callback  *button5CallbackArray[]  = {toggleMainLight,  NULL, disableAllLight,   NULL, enableAllLight,   NULL};
+const EventMgr_Callback  *button6CallbackArray[]  = {toggleWallLightA, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
+const EventMgr_Callback  *button7CallbackArray[]  = {toggleWallLightB, NULL, disableWallLight,  NULL, enableWallLight,  NULL};
+const EventMgr_Callback  *pir8CallbackArray[]     = {NULL, runBedLightTimer, NULL,              NULL, NULL,             NULL};
+const EventMgr_Callback  *sysResetCallbackArray[] = {NULL, NULL, NULL, toggleLed, toggleLed,};
+const EventMgr_Callback  *bedLightCallbackArray[] = {NULL, enableBedLight, disableBedLight, NULL, NULL,};
+#else
+#error define project!
+#endif
 
 /*TODO add assert for table size*/
 EventMgr_Config eventConfigMatrix[] = {
-    [0] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON1, 0, button1CallbackArray,  },
-    [1] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON2, 0, button2CallbackArray,  },
-    [2] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON3, 0, button3CallbackArray,  },
-    [3] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON4, 0, button4CallbackArray,  },
-    [4] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON5, 0, button5CallbackArray,  },
-    [5] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON6, 0, button6CallbackArray,  },
-    [6] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON7, 0, button7CallbackArray,  },
-    [7] = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_PIR8,    0, pir8CallbackArray,     },
-    [8] = {EVENT_TYPE_TIMER,  0, NULL, TIMER_SYS_RUN,    0, sysResetCallbackArray, },
-    [9] = {EVENT_TYPE_TIMER,  0, NULL, TIMER_BED_LIGHT,  0, bedLightCallbackArray, },
+    [0]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON1,  0, button1CallbackArray,  },
+    [1]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON2,  0, button2CallbackArray,  },
+    [2]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON3,  0, button3CallbackArray,  },
+    [3]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON4,  0, button4CallbackArray,  },
+    [4]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON5,  0, button5CallbackArray,  },
+    [5]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON6,  0, button6CallbackArray,  },
+    [6]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON7,  0, button7CallbackArray,  },
+    [7]  = {EVENT_TYPE_BUTTON, 0, NULL, GPIO_PIN_BUTTON8,  0, button8CallbackArray,  },
+    [8] = {EVENT_TYPE_TIMER,  0, NULL, TIMER_SYS_RUN,     0, sysResetCallbackArray, },
+    [9] = {EVENT_TYPE_TIMER,  0, NULL, TIMER_BED_LIGHT,   0, bedLightCallbackArray, },
 };
 
 static EventMgr_Callback* isButtonEventOccured(EventMgr_Config *event){

@@ -18,7 +18,7 @@ typedef enum {
     GPIO_PIN_BUTTON5,
     GPIO_PIN_BUTTON6,
     GPIO_PIN_BUTTON7,
-    GPIO_PIN_PIR8,
+    GPIO_PIN_BUTTON8,
     GPIO_PIN_SENTINEL,
 } Gpio_Pin;
 

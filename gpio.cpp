@@ -11,18 +11,18 @@
 const Gpio_Config gpioHardwareConfigTab[/*do not set array size explicitly (checked by assert)*/] = {
     /*Gpio_Pin        pinNumber isInput isPullup, isInv initState */
     [GPIO_PIN_LED]     = {13,    false,  false,   false,  HIGH},
-    [GPIO_PIN_RELAY1]  = {10,    false,  false,   true,   LOW},
-    [GPIO_PIN_RELAY2]  = { 9,    false,  false,   true,   LOW},
-    [GPIO_PIN_RELAY3]  = { 8,    false,  false,   true,   LOW},
-    [GPIO_PIN_RELAY4]  = { 7,    false,  false,   true,   LOW},
-    [GPIO_PIN_BUTTON1] = { 6,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON2] = { 5,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON3] = { 4,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON4] = { 3,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON5] = { 2,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON6] = {A0,    true,   false,   false,  0},
-    [GPIO_PIN_BUTTON7] = {A1,    true,   false,   false,  0},
-    [GPIO_PIN_PIR8] =    {A2,    true,   false,   false,  0},
+    [GPIO_PIN_RELAY1]  = {A0,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY2]  = {A1,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY3]  = {A2,    false,  false,   true,   LOW},
+    [GPIO_PIN_RELAY4]  = {A3,    false,  false,   true,   LOW},
+    [GPIO_PIN_BUTTON1] = { 2,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON2] = { 3,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON3] = { 4,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON4] = { 5,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON5] = { 6,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON6] = { 7,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON7] = { 8,    true,   false,   true,  0},
+    [GPIO_PIN_BUTTON8] = { 9,    true,   false,   true,  0},
 };
 
 
