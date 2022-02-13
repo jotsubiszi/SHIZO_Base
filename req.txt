@@ -9,6 +9,9 @@ Functional requirements:
 REQF4 Various Events type shall be handled
     REQF2 --> Button events
     REQF3 --> Timeout events
+REQF5 Event triggered acions shall be supported
+    REQF5.1 gpio controll actions
+    REQF5.1 timer controll actions
 
 REQF2 Button events
     REQF2.1 detect buton press
