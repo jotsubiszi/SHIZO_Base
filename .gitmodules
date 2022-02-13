@@ -1,0 +1,4 @@
+[submodule "Ard-Base-Docs"]
+	path = Ard-Base-Docs
+	url = git@github.com:PanPaskuda/Ard-Base-Docs.git
+	branch = main
