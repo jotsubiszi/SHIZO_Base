@@ -41,9 +41,11 @@ REQD1 Requirements
 
 REQD2 Code Architecture
     REQD2.1 Code Architecture must follow Requirements
+    REQD2.3 Code Architecture must support various projects
 
 REQD3 Code Design
     REQD3.1 Code design must follow Code Architecture
+    REQD3.2 Unit configuration must be separated from implementation
 
 REQD3 Source Code
     REQD3.1 Source Code must follow Code Design

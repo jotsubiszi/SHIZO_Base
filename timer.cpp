@@ -5,14 +5,8 @@
 #define LOGGER_LEVEL LOG_INFO
 #include "logger.h"
 
-
-//TODO add table consistency assert
-//TODO pass as parameter at timer_create
-//TODO assert timeout < MAX_INT32
-Timer_Struct timerStateMatrix[] = {
-    [TIMER_SYS_RUN] =   {TIMER_STOPPED, true,  0, 500uL},
-    [TIMER_BED_LIGHT] = {TIMER_STOPPED, false, 0, SEC_TO_MS(4uL)},
-};
+/* ugly source include since Arduino does not support source/config directories */
+#include "hw_config/timer_cfg.cpp"
 
 
 void timeoutDetected(Timer_Struct *timer){

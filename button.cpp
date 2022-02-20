@@ -6,23 +6,8 @@
 #define LOGGER_LEVEL LOG_INFO
 #include "logger.h"
 
-
-Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
-    {GPIO_PIN_BUTTON1,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON2,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON3,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON4,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON5,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON6,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON7,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-    {GPIO_PIN_BUTTON8,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
-};
-
-//TODO Configure using init or by config file
-static const uint32_t lastDebounceTime = 0;
-static const uint16_t debounceDelay = 20;
-static const uint16_t longPressTime = 1000u;
-static const uint16_t superLongPressTime = 2000uL;
+/* ugly source include since Arduino does not support source/config directories */
+#include "hw_config/button_cfg.cpp"
 
 
 static inline bool isDebounced(Button_Struct *button){
