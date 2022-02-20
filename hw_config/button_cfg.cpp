@@ -9,7 +9,7 @@
 #define BUTTON_CFG_GUARD
 #endif
 
-Button_Struct buttonStateMatrix[/*do not set array size explicitly (checked by assert)*/] = {
+Button_Struct buttonStateMatrix[/*do not set array size explicitly*/] = {
     {GPIO_PIN_BUTTON1,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
     {GPIO_PIN_BUTTON2,  BUTTON_STATE_SHORT_RELEASED, false, 0, },
     {GPIO_PIN_BUTTON3,  BUTTON_STATE_SHORT_RELEASED, false, 0, },

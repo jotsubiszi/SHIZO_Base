@@ -11,23 +11,7 @@
 #include "hw_config/gpio_cfg.cpp"
 
 
-//TODO add normal assert macro
-static void asserTests(void){
-    uint8_t isOk=true;
-
-    /*is gpioHardwareConfigTab completely populated */
-    if((sizeof(gpioHardwareConfigTab)/sizeof(gpioHardwareConfigTab[0])) != GPIO_PIN_SENTINEL) { isOk=false; }
-
-
-    if( !isOk){
-        LOGGERLN(LOG_ERROR, "== ASSERT HALT ==");
-
-        /*stay here if assert fail*/
-        for(;;){}
-    }
-        LOGGERLN(LOG_INFO, "ASSERT OK");
-}
-
+static_assert((sizeof(gpioHardwareConfigTab)/sizeof(gpioHardwareConfigTab[0])) == GPIO_PIN_SENTINEL);
 
 static void configureInput(const Gpio_Config *config){
     uint8_t pin = config->pinNumber;
@@ -67,8 +51,6 @@ static void configureOutput(const Gpio_Config *config){
 
 void Gpio_Init(void){
     LOGGERLN(LOG_INFO, "Gpio Init");
-
-    asserTests();
 
     for(uint8_t i=0; i < (sizeof(gpioHardwareConfigTab)/sizeof(gpioHardwareConfigTab[0])); i++){
         const Gpio_Config *pinHandler = &gpioHardwareConfigTab[i];
