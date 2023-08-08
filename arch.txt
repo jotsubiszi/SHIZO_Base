@@ -1,0 +1,49 @@
+@startuml
+package "Application" {
+  [Main]
+  [Event Manager]
+note right of [Event Manager]
+    REQF4
+end note
+}
+
+package "Modules" {
+  [Button]
+note right of [Button]
+    REQF2
+end note
+  [Timer]
+note right of [Timer]
+    REQF3
+end note
+  [Actions]
+note right of [Actions]
+    REQF5
+end note
+}
+
+package "Drivers"{
+  [Gpio]
+note right of [Gpio]
+    REQF1
+end note
+}
+
+package "HW config"{
+  [Hardware Abstraction Layer]
+note right of [Hardware Abstraction Layer]
+    REQF1
+end note
+}
+
+
+[Main] --> [Event Manager]
+[Event Manager] --> [Button]
+[Event Manager] --> [Timer]
+[Event Manager] --> [Actions]
+[Actions] --> [Gpio]
+[Actions] --> [Timer]
+[Button] --> [Gpio]
+[Gpio] --> [Hardware Abstraction Layer]
+
+@enduml
